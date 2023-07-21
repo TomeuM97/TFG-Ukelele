@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Aprèn Uke</string>
+
+    <!--Strings for MainMenu -->
+    <string name="button1_title">Aprende una canción</string>
+    <string name="button2_title">Practica</string>
+    <string name="button3_title">Afinador</string>
+    <string name="button4_title">Opciones</string>
+
+    <!--Strings for Tuner -->
+    <string name="input_note"> - </string>
+
+    <!--Strings for PlayerMenu -->
+    <string name="ratingText">Puntuación:</string>
+
+    <!--Strings for PlayerActivity -->
+
+    <!--Strings for Options -->
+    <string name="option1_title">Idioma</string>
+    <string name="option2_title">Entrada Audio</string>
+    <string name="option3_title">Notación</string>
+
+    <string-array name="option1_array">
+        <item>Angles</item>
+        <item>Espanyol</item>
+        <item>Catala</item>
+    </string-array>
+
+    <string-array name="option2_array">
+        <item>Microfon</item>
+        <item>Bluetooth</item>
+        <item>Audio Usb</item>
+    </string-array>
+
+    <string-array name="option3_array">
+        <item>Llatina</item>
+        <item>Anglesa</item>
+    </string-array>
+
+    <!--Strings for Asking Permission -->
+    <string name="permissions_info"> Es necessari proporcionar permisos per utilizar el microfon per continuar</string>
+    <string name="permissions_button">Proporcionar permisos</string>
+    <string name="permissions_info2"> Per proporcionar els permisos prem el botó superior o accedeix a Privacitat > Gestio de permisos > Microfon, un cop alla autoritza l\'us del microfon a la aplicació "Aprén Ukelele"  </string>
+</resources>

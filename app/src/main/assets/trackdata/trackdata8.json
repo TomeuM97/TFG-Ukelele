@@ -1,0 +1,35 @@
+{
+  "track-header": {
+    "name": "Canço 8",
+    "artist": "Jose",
+    "type": "song",
+    "image-name": "icono8.png",
+    "audio-name": "track2.mp3"
+  },
+  "track-data": [
+    {
+      "notes": [0,null,null,null],
+      "timestamp": 100
+    },
+    {
+      "notes": [null,0,null,null],
+      "timestamp": 200
+    },
+    {
+      "notes": [null,null,0,null],
+      "timestamp": 300
+    },
+    {
+      "notes": [null,null,null,0],
+      "timestamp": 400
+    },
+    {
+      "notes": [0,0,null,null],
+      "timestamp": 500
+    },
+    {
+      "notes": [null,null,0,0],
+      "timestamp": 600
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TunerActivity">
+
+    <TextView
+        android:id="@+id/textViewString1"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="190dp"
+        android:text="-"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guitarHead"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewString2"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="45dp"
+        android:text="-"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewString1"
+        app:layout_constraintEnd_toStartOf="@+id/guitarHead"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewString3"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="45dp"
+        android:text="-"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewString4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guitarHead" />
+
+    <TextView
+        android:id="@+id/textViewString4"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="190dp"
+        android:text="-"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guitarHead" />
+
+    <ImageView
+        android:id="@+id/guitarHead"
+        android:layout_width="265dp"
+        android:layout_height="398dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ukelele_head" />
+
+    <View
+        android:id="@+id/markerTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="100dp"
+        android:background="@color/design_default_color_primary"
+        app:layout_constraintTop_toTopOf="parent"
+   />
+
+    <View
+        android:id="@+id/markerBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="100dp"
+        android:background="@color/design_default_color_primary"
+        app:layout_constraintTop_toTopOf="@+id/markerTopBar"/>
+
+    <View
+        android:id="@+id/middleBar"
+        android:layout_width="5dp"
+        android:layout_height="100dp"
+        android:background="@color/design_default_color_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/markerTopBar"
+        app:layout_constraintBottom_toTopOf="@+id/markerBottomBar"
+         />
+
+    <View
+        android:id="@+id/movingBar"
+        android:layout_width="5dp"
+        android:layout_height="100dp"
+        android:background="@color/design_default_color_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/markerTopBar"
+        app:layout_constraintBottom_toTopOf="@+id/markerBottomBar"
+        />
+
+    <TextView
+        android:id="@+id/textViewDistance"
+        android:layout_width="84dp"
+        android:layout_height="20dp"
+        android:text="-"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/markerBottomBar" />
+
+    <TextView
+        android:id="@+id/textViewNote"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:text="@string/input_note"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/markerTopBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
