@@ -1,0 +1,34 @@
+{
+  "track-header": {
+    "name": "Canço 1",
+    "artist": "Pepe",
+    "type": "song",
+    "image-name": "icono1.png"
+  },
+  "track-data": [
+    {
+      "notes": [5,null,null,null],
+      "timestamp": 1
+    },
+    {
+      "notes": [null,0,null,null],
+      "timestamp": 2
+    },
+    {
+      "notes": [null,null,0,null],
+      "timestamp": 3
+    },
+    {
+      "notes": [null,null,null,0],
+      "timestamp": 3.5
+    },
+    {
+      "notes": [0,0,null,null],
+      "timestamp": 4
+    },
+    {
+      "notes": [null,null,0,0],
+      "timestamp": 6
+    }
+  ]
+}

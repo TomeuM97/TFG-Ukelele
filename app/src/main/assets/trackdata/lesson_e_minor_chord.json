@@ -1,0 +1,27 @@
+{
+  "track-header": {
+    "name": "Chord: C minor",
+    "artist": "",
+    "type": "lesson"
+  },
+  "track-data": [
+    {"notes": [0,null,null,null], "timestamp": 0},
+    {"notes": [null,1,null,null], "timestamp": 1},
+    {"notes": [null,null,1,null], "timestamp": 2},
+    {"notes": [null,null,null,1], "timestamp": 3},
+    {"notes": [0,1,1,1], "timestamp": 4},
+    {"notes": [0,1,1,1], "timestamp": 6},
+    {"notes": [0,1,1,1], "timestamp": 7},
+    {"notes": [0,1,1,1], "timestamp": 8},
+    {"notes": [0,1,1,1], "timestamp": 8.5},
+    {"notes": [0,1,1,1], "timestamp": 9},
+    {"notes": [0,1,1,1], "timestamp": 10},
+    {"notes": [0,1,1,1], "timestamp": 11},
+    {"notes": [0,1,1,1], "timestamp": 11.5},
+    {"notes": [0,1,1,1], "timestamp": 12},
+    {"notes": [0,1,1,1], "timestamp": 13},
+    {"notes": [0,1,1,1], "timestamp": 14},
+    {"notes": [0,1,1,1], "timestamp": 14.5},
+    {"notes": [0,1,1,1], "timestamp": 15}
+  ]
+}
