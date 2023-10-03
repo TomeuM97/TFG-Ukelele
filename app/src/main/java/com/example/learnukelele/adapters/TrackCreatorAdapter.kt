@@ -1,61 +1,65 @@
-package com.example.learnukelele.Adapter
+package com.example.learnukelele.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnukelele.R
-import com.example.learnukelele.db.Track
-import org.json.JSONArray
+import com.example.learnukelele.database.Track
 
 
-class TrackCreatorAdapter(private var tracksList: ArrayList<Track>): RecyclerView.Adapter<TrackCreatorAdapter.MyViewHolder>() {
+class TrackCreatorAdapter(private var tracksList: ArrayList<Track>): RecyclerView.Adapter<TrackCreatorAdapter.TrackViewHolder>() {
 
     private lateinit var trackClickListener: TrackClickListener
 
     interface TrackClickListener{
-        fun onTrackClick(position : Int, trackBody: JSONArray)
+        fun onTrackEditClick(trackId : Int)
+        fun onTrackDeleteClick(trackId: Int)
     }
 
     fun setTrackClickListener(listener: TrackClickListener){
         trackClickListener = listener
     }
+    fun setNewArrayList(newArrayList: ArrayList<Track>) {
+        tracksList = newArrayList
+        notifyDataSetChanged()
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.creator_menu_item, parent, false)
-        return MyViewHolder(itemView, trackClickListener )
+        return TrackViewHolder(itemView, trackClickListener )
     }
 
     override fun getItemCount(): Int {
         return tracksList.size
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         val currentItem = tracksList[position]
         holder.trackImage.setImageBitmap(currentItem.image)
         holder.trackName.text = currentItem.title
         holder.trackAuthor.text = currentItem.author
-        holder.trackBody = currentItem.trackData
+        holder.trackId = currentItem.id
     }
 
-    class MyViewHolder(itemView: View, listener: TrackClickListener) : RecyclerView.ViewHolder(itemView){
+    class TrackViewHolder(itemView: View, listener: TrackClickListener) : RecyclerView.ViewHolder(itemView){
         val trackImage: ImageView = itemView.findViewById(R.id.trackImage)
         val trackName: TextView = itemView.findViewById(R.id.trackTitle)
         val trackAuthor: TextView = itemView.findViewById(R.id.trackAuthor)
-        lateinit var trackBody: JSONArray
+        var trackId: Int = 0
 
         init {
-            itemView.setOnClickListener{
-                listener.onTrackClick(adapterPosition, trackBody)
+            val editButton = itemView.findViewById<ImageButton>(R.id.editButton)
+            val deleteButton = itemView.findViewById<ImageButton>(R.id.deleteButton)
+            editButton.setOnClickListener {
+                listener.onTrackEditClick(trackId)
+            }
+            deleteButton.setOnClickListener {
+                listener.onTrackDeleteClick(trackId)
             }
         }
-    }
-
-    fun setFilteredArrayList(filteredArrayList: ArrayList<Track>) {
-        tracksList = filteredArrayList
-        notifyDataSetChanged()
     }
 }

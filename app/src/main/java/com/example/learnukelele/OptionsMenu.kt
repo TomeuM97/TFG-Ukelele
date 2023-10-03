@@ -1,77 +1,128 @@
 package com.example.learnukelele
 
-import android.content.Intent
-import android.content.res.Configuration
-import android.content.res.Resources
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.view.View
 import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import com.example.learnukelele.Adapter.TrackAdapter
-import com.example.learnukelele.Dialog.OptionsMenuDialog
-import com.example.learnukelele.Utils.ContextUtils
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.lifecycleScope
+import com.example.learnukelele.audio.notes
+import com.example.learnukelele.audio.standardTuning
+import com.example.learnukelele.database.TrackDatabaseHelper
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import java.util.Locale
+import kotlinx.coroutines.launch
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "options")
 
 class OptionsMenu : AppCompatActivity() {
+
+    private lateinit var stringOrderOptions: Array<RadioButton>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_options_menu)
 
-        val opt1 = findViewById<Button>(R.id.option1)
-        val opt2 = findViewById<Button>(R.id.option2)
-        val opt3 = findViewById<Button>(R.id.option3)
+        //Checkboxes
+        val stringOrder = findViewById<RadioGroup>(R.id.stringOrderOptions)
+        stringOrderOptions = arrayOf(
+            findViewById(R.id.stringOrderOption1),
+            findViewById(R.id.stringOrderOption2)
+        )
+        val notation = findViewById<RadioGroup>(R.id.notationOptions)
+        val notationOptions: Array<RadioButton> = arrayOf(
+            findViewById(R.id.notationOption1),
+            findViewById(R.id.notationOption2)
+        )
 
-        val optionsFragmentManager = supportFragmentManager
+        lifecycleScope.launch {
+            val checkedStringOrder = getSavedOption("stringOrder")
+            stringOrderOptions[checkedStringOrder].isChecked = true
 
-        val opt1MenuDialog = OptionsMenuDialog(resources.getString(R.string.option1_title), resources.getStringArray(R.array.option1_array), runBlocking { getSavedOption("language") })
-        val opt2MenuDialog = OptionsMenuDialog(resources.getString(R.string.option2_title), resources.getStringArray(R.array.option2_array), runBlocking { getSavedOption("audio-input") })
-        val opt3MenuDialog = OptionsMenuDialog(resources.getString(R.string.option3_title), resources.getStringArray(R.array.option3_array), runBlocking { getSavedOption("notation") })
+            val checkedNotation = getSavedOption("notation")
+            setOrderOptionsStrings(checkedNotation)
+            notationOptions[checkedNotation].isChecked = true
+        }
 
-        opt1MenuDialog.setSaveButtonClickListener(object: OptionsMenuDialog.SaveButtonClickListener{
-            override fun onSaveButtonClick(checkedItem: Int) {
-                println("you selected option $checkedItem")
-                var locale: Locale
-                runBlocking {
-                    saveOption("language",checkedItem)
-                    locale = when (checkedItem){
-                        0 -> Locale("en")
-                        1 -> Locale("es")
-                        else -> Locale("ca")
+        stringOrder.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.stringOrderOption1 -> {
+                    lifecycleScope.launch {
+                        saveOption("stringOrder", 0)
                     }
                 }
-                println(locale.getDisplayName(locale))
-                var contextUtils = ContextUtils.updateLocale(this@OptionsMenu, locale)
-            }
-        })
-        opt2MenuDialog.setSaveButtonClickListener(object: OptionsMenuDialog.SaveButtonClickListener{
-            override fun onSaveButtonClick(checkedItem: Int) {
-                println("you selected option $checkedItem")
-                runBlocking {
-                    saveOption("audio-input",checkedItem)
+                R.id.stringOrderOption2 -> {
+                    lifecycleScope.launch {
+                        saveOption("stringOrder", 1)
+                    }
                 }
             }
-        })
-        opt3MenuDialog.setSaveButtonClickListener(object: OptionsMenuDialog.SaveButtonClickListener{
-            override fun onSaveButtonClick(checkedItem: Int) {
-                println("you selected option $checkedItem")
-                runBlocking {
-                    saveOption("notation",checkedItem)
-                }
-            }
-        })
+        }
 
-        opt1.setOnClickListener {
-            opt1MenuDialog.show(optionsFragmentManager, "languageDialog")
+        notation.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.notationOption1 -> {
+                    lifecycleScope.launch {
+                        saveOption("notation", 0)
+                        setOrderOptionsStrings(0)
+                    }
+                }
+                R.id.notationOption2 -> {
+                    lifecycleScope.launch {
+                        saveOption("notation", 1)
+                        setOrderOptionsStrings(1)
+                    }
+                }
+            }
         }
-        opt2.setOnClickListener {
-            opt2MenuDialog.show(optionsFragmentManager, "audioDialog")
+
+
+        //Buttons
+        val repeatTutorialButton = findViewById<Button>(R.id.repeatTutorial)
+        val scoreResetButton = findViewById<Button>(R.id.resetScores)
+        repeatTutorialButton.setOnClickListener {
+            lifecycleScope.launch {
+                dataStore.edit{ options ->
+                    options[booleanPreferencesKey("player_tutorial")] = true
+                }
+            }
+            lifecycleScope.launch {
+                dataStore.edit{ options ->
+                    options[booleanPreferencesKey("tuner_tutorial")] = true
+                }
+            }
+            lifecycleScope.launch {
+                dataStore.edit{ options ->
+                    options[booleanPreferencesKey("creator_tutorial")] = true
+                }
+            }
+            val string = resources.getString(R.string.resetTutorial)
+            val toast = Toast.makeText(this, string, Toast.LENGTH_SHORT) // in Activity
+            toast.show()
         }
-        opt3.setOnClickListener {
-            opt3MenuDialog.show(optionsFragmentManager, "notationDialog")
+        scoreResetButton.setOnClickListener {
+            showConfirmScoreResetDialog(getString(R.string.confirmationTextResetScores))
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setOrderOptionsStrings(checkedNotation: Int) {
+        if (checkedNotation==0){
+            stringOrderOptions[0].text = "${notes[standardTuning[0]].name} - ${notes[standardTuning[1]].name} - ${notes[standardTuning[2]].name} - ${notes[standardTuning[3]].name}"
+            stringOrderOptions[1].text = "${notes[standardTuning[3]].name} - ${notes[standardTuning[2]].name} - ${notes[standardTuning[1]].name} - ${notes[standardTuning[0]].name}"
+        } else {
+            stringOrderOptions[0].text = "${notes[standardTuning[0]].nameL} - ${notes[standardTuning[1]].nameL} - ${notes[standardTuning[2]].nameL} - ${notes[standardTuning[3]].nameL}"
+            stringOrderOptions[1].text = "${notes[standardTuning[3]].nameL} - ${notes[standardTuning[2]].nameL} - ${notes[standardTuning[1]].nameL} - ${notes[standardTuning[0]].nameL}"
         }
     }
 
@@ -82,8 +133,8 @@ class OptionsMenu : AppCompatActivity() {
         }
     }
 
-    private suspend fun getSavedOption (option: String): Int {
-        val dataStoreKey = intPreferencesKey(option)
+    private suspend fun getSavedOption (optionName: String): Int {
+        val dataStoreKey = intPreferencesKey(optionName)
         val preferences = dataStore.data.first()
         val optionSavedValue = preferences[dataStoreKey]
         return if(optionSavedValue is Int){
@@ -92,4 +143,34 @@ class OptionsMenu : AppCompatActivity() {
             0
         }
     }
+
+    private fun showConfirmScoreResetDialog(confirmationQuestion: String){
+        // Create an alert builder
+        val builder = AlertDialog.Builder(this)
+
+        // set the custom layout
+        val customLayout: View = layoutInflater.inflate(R.layout.dialog_confirmation, null)
+        builder.setView(customLayout)
+
+        val confirmationMessage = customLayout.findViewById<TextView>(R.id.confirmationMessage)
+        val noButton = customLayout.findViewById<Button>(R.id.confirmationNo)
+        val yesButton = customLayout.findViewById<Button>(R.id.confirmationYes)
+
+        confirmationMessage.text = confirmationQuestion
+
+        // create and show the alert dialog
+        val dialog = builder.create()
+        dialog.show()
+
+        noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        yesButton.setOnClickListener {
+            val trackDatabaseHelper = TrackDatabaseHelper(this)
+            trackDatabaseHelper.resetAllTrackScores()
+            dialog.dismiss()
+        }
+    }
 }
+
+

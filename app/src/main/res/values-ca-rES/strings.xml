@@ -6,41 +6,84 @@
     <string name="button1_title">Aprèn una cançó</string>
     <string name="button2_title">Practica</string>
     <string name="button3_title">Afinador</string>
-    <string name="button4_title">Opcions</string>
+    <string name="button4_title">Creador de pistes</string>
+    <string name="button5_title">Opcions</string>
 
     <!--Strings for Tuner -->
     <string name="input_note"> - </string>
+    <string name="messageTooLoose">Tensa la corda</string>
+    <string name="messageTooTight">Afluixa la corda</string>
+    <string name="messageRightTone">Corda afinada!</string>
 
     <!--Strings for PlayerMenu -->
     <string name="ratingText">Puntuació:</string>
 
+    <!--Strings for MenusFilters -->
+    <string name="typeTitle">Tipus de pista:</string>
+    <string name="songCheckBox">Cançons</string>
+    <string name="typeCheckBox">Practica</string>
+
+    <string name="orderTitle">Ordre:</string>
+    <string-array name="orderSpinner">
+        <item>Titol alfabeticament A->Z</item>
+        <item>Titol alfabeticament Z->A</item>
+        <item>Artista alfabeticament A->Z</item>
+        <item>Artista alfabeticament Z->A</item>
+        <item>Puntuació ascendent</item>
+        <item>Puntuació descendent</item>
+    </string-array>
+    <string name="acceptButton">Accepta</string>
+
+
     <!--Strings for PlayerActivity -->
+    <!--Strings for Confirmation Pause and Finish Dialog -->
+    <string name="dialogSpeed"> Velocitat</string>
+    <string name="dialogContinue">Continuar</string>
+    <string name="dialogRestart">Reiniciar</string>
+    <string name="dialogQuit">Sortir</string>
+    <string name="highScore">NOU RECORD!</string>
+    <string name="confirmationYes">Si</string>
+    <string name="confirmationTextEditQuit">Estas segur? Els canvis fets a la pista no es guardaran</string>
+    <string name="confirmationTextCreateQuit">Estas segur? Si surts sense crear els canvis no es guardaran</string>
+    <string name="confirmationTextDeleteTrack">Estas segur? Si elimines la pista no la podras recuperar mai</string>
+    <string name="confirmationTextResetScores">Estas segur? Es pedran totes les puntuacions obtingudes fins are</string>
+    <string name="skipTutorial">Omet el tutorial</string>
+    <string name="resetTutorial">Els tutorials s\'han resetetjat</string>
+
+    <!--Strings for CreatorActivity -->
+    <string name="createButton">Crear</string>
+    <string name="saveEditButton">Guardar</string>
+    <string name="cancelButton">Cancelar</string>
+    <string name="deleteNote">Espai buid</string>
+
+    <string name="creatorTrackTitle">Titol de la pista</string>
+    <string name="creatorTrackAuthor">Autor de la pista</string>
+    <string name="creatorTrackType">Tipus de pista</string>
+    <string name="creatorTrackImage">Miniatura</string>
+    <string name="creatorTrackImageButton">Canvia la miniatura</string>
+    <string-array name="creatorTrackTypesArray">
+        <item>Canço</item>
+        <item>Practica</item>
+    </string-array>
 
     <!--Strings for Options -->
-    <string name="option1_title">Idioma</string>
-    <string name="option2_title">Entrada Audio</string>
-    <string name="option3_title">Notació</string>
+    <string name="option1_title">Ordre de les cordes</string>
+    <string name="option2_title">Notació</string>
+    <string name="option2_one">Anglesa (C, D, E ... B)</string>
+    <string name="option2_two">Llatina (Do, Re, Mi ... Si)</string>
+    <string name="option3_title">Repetir tutorial</string>
+    <string name="option4_title">Reestablir puntuacions</string>
 
-    <string-array name="option1_array">
-        <item>Angles</item>
-        <item>Espanyol</item>
-        <item>Catala</item>
-    </string-array>
-
-    <string-array name="option2_array">
-        <item>Microfon</item>
-        <item>Bluetooth</item>
-        <item>Audio Usb</item>
-    </string-array>
-
-    <string-array name="option3_array">
-        <item>Llatina</item>
-        <item>Anglesa</item>
-    </string-array>
+    <!--Strings for Track Creator Menu -->
+    <string name="track_creator_title">Llista de pistes</string>
+    <string name="track_creator_button2">Crear nova pista</string>
+    <string name="track_creator_button3">Importa pistes</string>
+    <string name="track_creator_button4">Exporta pistes</string>
+    <string name="empty_recycler">Encara no has creat cap pista, prem el boto &quot;Crear nova pista&quot;</string>
 
     <!--Strings for Asking Permission -->
-    <string name="permissions_info"> Es necessari proporcionar permisos per utilizar el microfon per continuar</string>
+    <string name="permissions_info">Es necessari proporcionar permisos per utilizar el microfon per continuar</string>
     <string name="permissions_button">Proporcionar permisos</string>
-    <string name="permissions_info2"> Per proporcionar els permisos prem el botó superior o accedeix a Privacitat > Gestio de permisos > Microfon, un cop alla autoritza l\'us del microfon a la aplicació "Aprén Ukelele"  </string>
+    <string name="permissions_info2">Per proporcionar els permisos prem el botó superior o accedeix a Privacitat > Gestio de permisos > Microfon, un cop alla autoritza l\'us del microfon a la aplicació "Aprén Ukelele"</string>
 
 </resources>

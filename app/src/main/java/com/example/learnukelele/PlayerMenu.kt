@@ -1,37 +1,43 @@
 package com.example.learnukelele
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
+import android.widget.VideoView
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.learnukelele.Adapter.TrackAdapter
-import com.example.learnukelele.Model.Track
+import com.example.learnukelele.adapters.TrackAdapter
+import com.example.learnukelele.database.Track
+import com.example.learnukelele.database.TrackDatabaseHelper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.json.JSONObject
 
-
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ratings")
 
 class PlayerMenu : AppCompatActivity() {
+
+    private var tracksList: ArrayList<Track> = arrayListOf()
+    private var filterApplied = 0
+
+    private lateinit var trackAdapter: TrackAdapter
+    private lateinit var typeOfTrack: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player_menu)
 
-        val typeOfTrack = intent.getStringExtra("type")
+        typeOfTrack = intent.getStringExtra("type").toString()
         val listTitle = findViewById<TextView>(R.id.listTitle)
         if(typeOfTrack == "song"){
             listTitle.text = getString(R.string.button1_title)
@@ -39,69 +45,160 @@ class PlayerMenu : AppCompatActivity() {
             listTitle.text = getString(R.string.button2_title)
         }
 
-        lifecycleScope.launch {
-            saveRating("trackdata2.json",99)
-            saveRating("trackdata1.json",34)
-            saveRating("trackdata3.json",58)
+        val filterButton = findViewById<ImageButton>(R.id.filterButton)
+        filterButton.setOnClickListener {
+            showFilterDialog()
         }
 
         var newRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         newRecyclerView.layoutManager = LinearLayoutManager(this)
         newRecyclerView.setHasFixedSize(true)
 
-        var tracksList: ArrayList<Track> = arrayListOf<Track>()
+        val trackDatabaseHelper = TrackDatabaseHelper(this)
+        tracksList = trackDatabaseHelper.getAllTracks() as ArrayList<Track>
+        tracksList = ArrayList(tracksList.filter { track -> track.type == typeOfTrack })
 
-        applicationContext.assets.list("trackdata")?.forEach { filename ->
-            val trackInString = applicationContext.assets.open("trackdata/$filename").bufferedReader().use { it.readText() }
-            val trackInJson = JSONObject(trackInString)
-            val trackHeaderInJSOn = trackInJson.getJSONObject("track-header")
-
-            if(trackHeaderInJSOn.getString("type") == typeOfTrack ){
-                val trackTitle = trackHeaderInJSOn.getString("name")
-                val trackAuthor = trackHeaderInJSOn.getString("artist")
-                val trackImageDrawable: Drawable = if(trackHeaderInJSOn.has("image-name")){
-                    val imageFilename = trackHeaderInJSOn.getString("image-name")
-                    Drawable.createFromStream(assets.open("thumbnail/$imageFilename"), null)!!
-                } else {
-                    AppCompatResources.getDrawable(this, R.drawable.track_icon_default)!!
-                }
-
-                var trackRating: Int
-                runBlocking {
-                    trackRating = getRating(filename)
-                }
-                val track = Track(trackImageDrawable,trackTitle,trackAuthor,trackRating, filename)
-                tracksList.add(track)
-            }
-        }
-        var trackAdapter = TrackAdapter(tracksList)
+        //We apply the ordering Title A-Z as default
+        trackAdapter = TrackAdapter(filterTrackListTitleAZ(tracksList))
         newRecyclerView.adapter = trackAdapter
 
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                startActivity(Intent(this@PlayerMenu, MainMenu::class.java))
+            }
+        })
+
         trackAdapter.setTrackClickListener(object: TrackAdapter.TrackClickListener{
-            override fun onTrackClick(position: Int, filename: String) {
+            override fun onTrackClick(trackId: Int) {
                 Intent(this@PlayerMenu,PlayerActivity::class.java).also{
-                    it.putExtra("filename",filename)
+                    it.putExtra("trackId", trackId)
                     startActivity(it)
                 }
             }
         })
-    }
-
-    private suspend fun saveRating(filename: String, rating: Int){
-        val dataStoreKey = intPreferencesKey(filename)
-        dataStore.edit{ ratings ->
-            ratings[dataStoreKey] = rating
+        //If the tutorial was not skiped previously we show it
+        val dataStoreKey = booleanPreferencesKey("player_tutorial")
+        lifecycleScope.launch {
+            val preferences = dataStore.data.first()
+            val optionSavedValue = preferences[dataStoreKey]
+            if (optionSavedValue != false){
+                showVideoTutorialDialog()
+            }
         }
     }
 
-    private suspend fun getRating (filename: String): Int {
-        var trackRating = 0
-        val dataStoreKey = intPreferencesKey(filename)
-        val preferences = dataStore.data.first()
-        val ratingStored = preferences[dataStoreKey]
-        if(ratingStored is Int){
-            trackRating = preferences[dataStoreKey]!!
+    private fun showVideoTutorialDialog() {
+        // Create an alert builder
+        val builder = AlertDialog.Builder(this)
+
+        // set the custom layout
+        val customLayout: View = layoutInflater.inflate(R.layout.dialog_videotutorial, null)
+        builder.setView(customLayout)
+
+        val skipTutorialButton = customLayout.findViewById<Button>(R.id.skipTutorial)
+        val videoView = customLayout.findViewById<VideoView>(R.id.videoView)
+
+        val path = "android.resource://" + packageName + "/" + R.raw.player_tutorial
+
+        videoView.setVideoPath(path)
+        videoView.start()
+        videoView.setOnCompletionListener { mediaPlayer ->
+            mediaPlayer.seekTo(0)
+            mediaPlayer.start()
         }
-        return trackRating
+
+        // create and show the alert dialog
+        val dialog = builder.create()
+        dialog.show()
+
+        skipTutorialButton.setOnClickListener {
+            val dataStoreKey = booleanPreferencesKey("player_tutorial")
+            lifecycleScope.launch {
+                dataStore.edit{ options ->
+                    options[dataStoreKey] = false
+                }
+            }
+            dialog.dismiss()
+        }
     }
+
+    private fun showFilterDialog() {
+        // Create an alert builder
+        val builder = AlertDialog.Builder(this)
+
+        // set the custom layout
+        val customLayout: View = layoutInflater.inflate(R.layout.dialog_player_menu_filter, null)
+        builder.setView(customLayout)
+
+        val orderSpinner = customLayout.findViewById<Spinner>(R.id.orderSpinner)
+        val acceptButton = customLayout.findViewById<Button>(R.id.acceptButton)
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.orderSpinner,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            orderSpinner.adapter = adapter
+            orderSpinner.setSelection(filterApplied)
+        }
+
+        builder.setOnCancelListener {
+            applySelectedFilter(orderSpinner.selectedItem.toString())
+        }
+
+        // create and show the alert dialog
+        val dialog = builder.create()
+        dialog.show()
+
+        acceptButton.setOnClickListener {
+            applySelectedFilter(orderSpinner.selectedItem.toString())
+            dialog.dismiss()
+        }
+
+    }
+    private fun applySelectedFilter(selectedOrder: String) {
+        val orderStringArray = resources.getStringArray(R.array.orderSpinner)
+        when(selectedOrder){
+            orderStringArray[0] -> {trackAdapter.setFilteredArrayList(filterTrackListTitleAZ(tracksList))
+                filterApplied = 0}
+            orderStringArray[1] -> {trackAdapter.setFilteredArrayList(filterTrackListTitleZA(tracksList))
+                filterApplied = 1}
+            orderStringArray[2] -> {trackAdapter.setFilteredArrayList(filterTrackListAuthorAZ(tracksList))
+                filterApplied = 2}
+            orderStringArray[3] -> {trackAdapter.setFilteredArrayList(filterTrackListAuthorZA(tracksList))
+                filterApplied = 3}
+            orderStringArray[4] -> {trackAdapter.setFilteredArrayList(filterTrackListRatingUp(tracksList))
+                filterApplied = 4}
+            orderStringArray[5] -> {trackAdapter.setFilteredArrayList(filterTrackListRatingDown(tracksList))
+                filterApplied = 5}
+        }
+    }
+
+    private fun filterTrackListTitleAZ(tracksList: ArrayList<Track>): ArrayList<Track> {
+        return ArrayList(tracksList.sortedWith(compareBy { it.title }))
+    }
+
+    private fun filterTrackListTitleZA(tracksList: ArrayList<Track>): ArrayList<Track> {
+        return ArrayList(tracksList.sortedWith(compareByDescending { it.title }))
+    }
+
+    private fun filterTrackListAuthorAZ(tracksList: ArrayList<Track>): ArrayList<Track> {
+        return ArrayList(tracksList.sortedWith(compareBy { it.author }))
+    }
+
+    private fun filterTrackListAuthorZA(tracksList: ArrayList<Track>): ArrayList<Track> {
+        return ArrayList(tracksList.sortedWith(compareByDescending { it.author }))
+    }
+
+    private fun filterTrackListRatingUp(tracksList: ArrayList<Track>): ArrayList<Track> {
+        return ArrayList(tracksList.sortedWith(compareBy { it.score }))
+    }
+
+    private fun filterTrackListRatingDown(tracksList: ArrayList<Track>): ArrayList<Track> {
+        return ArrayList(tracksList.sortedWith(compareByDescending { it.score }))
+    }
+
 }

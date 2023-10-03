@@ -6,5 +6,15 @@
     <color name="brown_200">#DF9F6B</color>
     <color name="brown_700">#955F2D</color>
     <color name="black">#FF000000</color>
+    <color name="grey">#808080</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="red">#DD2C00</color>
+    <color name="green">#00C853</color>
+
+    <!-- Colors for the strings -->
+    <color name="string1">#FF8585</color>
+    <color name="string2">#A98AFF</color>
+    <color name="string3">#91FFE5</color>
+    <color name="string4">#F7FFA1</color>
 </resources>

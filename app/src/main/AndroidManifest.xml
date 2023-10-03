@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
+        android:screenOrientation="portrait"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnUkelele">
         <activity
-            android:name=".BaseActivity"
+            android:name=".TrackCreatorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TrackCreatorMenu"
             android:exported="false" />
         <activity
             android:name=".PermissionActivity"
@@ -36,7 +40,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 

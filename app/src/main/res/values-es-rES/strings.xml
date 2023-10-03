@@ -1,45 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Aprèn Uke</string>
+    <string name="app_name">Aprende Uke</string>
 
     <!--Strings for MainMenu -->
     <string name="button1_title">Aprende una canción</string>
     <string name="button2_title">Practica</string>
     <string name="button3_title">Afinador</string>
-    <string name="button4_title">Opciones</string>
+    <string name="button4_title">Creador de pistas</string>
+    <string name="button5_title">Opciones</string>
 
     <!--Strings for Tuner -->
     <string name="input_note"> - </string>
+    <string name="messageTooLoose">Tensa la cuerda</string>
+    <string name="messageTooTight">Afloja la cuerda</string>
+    <string name="messageRightTone">¡Cuerda afinada!</string>
 
     <!--Strings for PlayerMenu -->
     <string name="ratingText">Puntuación:</string>
 
+    <!--Strings for MenusFilters -->
+    <string name="typeTitle">Tipo de pista:</string>
+    <string name="songCheckBox">Canciones</string>
+    <string name="typeCheckBox">Practica</string>
+
+    <string name="orderTitle">Orden:</string>
+    <string-array name="orderSpinner">
+        <item>Titulo alfabeticamente A->Z</item>
+        <item>Titulo alfabeticamente Z->A</item>
+        <item>Artista alfabeticamente A->Z</item>
+        <item>Artista alfabeticamente Z->A</item>
+        <item>Puntación ascendente</item>
+        <item>Puntación descendente</item>
+    </string-array>
+    <string name="acceptButton">Aceptar</string>
+
+
     <!--Strings for PlayerActivity -->
+    <!--Strings for Confirmation Pause and Finish Dialog -->
+    <string name="dialogSpeed"> Velocidad</string>
+    <string name="dialogContinue"> Continuar</string>
+    <string name="dialogRestart"> Reiniciar</string>
+    <string name="dialogQuit">Salir</string>
+    <string name="highScore">¡NUEVO RECORD!</string>
+    <string name="confirmationYes"> Si </string>
+    <string name="confirmationTextEditQuit">¿Estas seguro? Los cambios hechos a la pista no se guardaran</string>
+    <string name="confirmationTextCreateQuit">¿Estas seguro? Si sales sin crear la pista los cambios no se guardaran</string>
+    <string name="confirmationTextDeleteTrack">¿Estas seguro? La pista se va a eliminar permanentemente</string>
+    <string name="confirmationTextResetScores">¿Estas seguro? Se perderan las puntuaciones obtenidas hasta el momento</string>
+    <string name="skipTutorial">Omitir tutorial</string>
+    <string name="resetTutorial">Los tutoriales se han reestablecido</string>
+
+    <!--Strings for CreatorActivity -->
+    <string name="createButton">Crear</string>
+    <string name="saveEditButton">Guardar</string>
+    <string name="cancelButton">Cancelar</string>
+    <string name="deleteNote">Espacio vacio</string>
+
+    <string name="creatorTrackTitle">Titulo de la pista</string>
+    <string name="creatorTrackAuthor">Autor de la pista</string>
+    <string name="creatorTrackType">Tipo de pista</string>
+    <string name="creatorTrackImage">Miniatura</string>
+    <string name="creatorTrackImageButton">Cambia la miniatura</string>
+    <string-array name="creatorTrackTypesArray">
+        <item>Canción</item>
+        <item>Practica</item>
+    </string-array>
+
 
     <!--Strings for Options -->
-    <string name="option1_title">Idioma</string>
-    <string name="option2_title">Entrada Audio</string>
-    <string name="option3_title">Notación</string>
+    <string name="option1_title">Ordren de las cuerdas</string>
+    <string name="option2_title">Notación</string>
+    <string name="option2_one">Inglesa (C, D, E ... B)</string>
+    <string name="option2_two">Latina (Do, Re, Mi ... Si)</string>
+    <string name="option3_title">Repetir tutorial</string>
+    <string name="option4_title">Reestablecer puntuaciones</string>
 
-    <string-array name="option1_array">
-        <item>Angles</item>
-        <item>Espanyol</item>
-        <item>Catala</item>
-    </string-array>
 
-    <string-array name="option2_array">
-        <item>Microfon</item>
-        <item>Bluetooth</item>
-        <item>Audio Usb</item>
-    </string-array>
-
-    <string-array name="option3_array">
-        <item>Llatina</item>
-        <item>Anglesa</item>
-    </string-array>
+    <!--Strings for Track Creator Menu -->
+    <string name="track_creator_title">Lista de pistas</string>
+    <string name="track_creator_button2">Crear nueva pista</string>
+    <string name="track_creator_button3">Importar pistas</string>
+    <string name="track_creator_button4">Exportar pistas</string>
+    <string name="empty_recycler">Aun no has creado ninguna pista, pulsa el boton &quot;Crear nueva pista&quot;</string>
 
     <!--Strings for Asking Permission -->
-    <string name="permissions_info"> Es necessari proporcionar permisos per utilizar el microfon per continuar</string>
+    <string name="permissions_info">Es necessario proporcionar los permisos para utilizar el microfono para continuar</string>
     <string name="permissions_button">Proporcionar permisos</string>
-    <string name="permissions_info2"> Per proporcionar els permisos prem el botó superior o accedeix a Privacitat > Gestio de permisos > Microfon, un cop alla autoritza l\'us del microfon a la aplicació "Aprén Ukelele"  </string>
+    <string name="permissions_info2">Para proporcionar los permisos pulsa el boton superior o accede a Privacidad > Gestión de permisos > Microfono, allí autoriza el uso del microfono para la aplicación "Aprende Uke"</string>
 </resources>

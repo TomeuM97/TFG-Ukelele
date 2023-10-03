@@ -1,66 +1,76 @@
 package com.example.learnukelele.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnukelele.R
-import com.example.learnukelele.database.Track
+import com.example.learnukelele.dataStore
+import com.example.learnukelele.views.NotePlacerView
+import kotlinx.coroutines.flow.first
 
 
-class NotePlacerAdapter(private var tracksList: ArrayList<Track>): RecyclerView.Adapter<NotePlacerAdapter.MyViewHolder>() {
+class NotePlacerAdapter(private var notesTimestamps: ArrayList<NoteTimestamp>, private var stringOrder: Int): RecyclerView.Adapter<NotePlacerAdapter.NotePlacerViewHolder>() {
 
-    private lateinit var trackClickListener: TrackClickListener
-
-    interface TrackClickListener{
-        fun onTrackEditClick(trackId : Int)
-        fun onTrackDeleteClick(trackId: Int)
-    }
-
-    fun setTrackClickListener(listener: TrackClickListener){
-        trackClickListener = listener
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.creator_menu_item, parent, false)
-        return MyViewHolder(itemView, trackClickListener )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotePlacerViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.creator_note_placer_item, parent, false)
+        return NotePlacerViewHolder(itemView, notesTimestamps)
     }
 
     override fun getItemCount(): Int {
-        return tracksList.size
+        return notesTimestamps.size
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = tracksList[position]
-        holder.trackImage.setImageBitmap(currentItem.image)
-        holder.trackName.text = currentItem.title
-        holder.trackAuthor.text = currentItem.author
-        holder.trackId = currentItem.id
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: NotePlacerViewHolder, position: Int) {
+        if(position%4 == 0){
+            holder.notePlacerSecondsTimestamp.text = "${((notesTimestamps[position].timestamp%60).toInt())}s"
+            holder.notePlacerMinutesTimestamp.text = "${((notesTimestamps[position].timestamp/60).toInt())} min"
+        } else {
+            holder.notePlacerSecondsTimestamp.text = ""
+            holder.notePlacerMinutesTimestamp.text = ""
+        }
+        holder.notePlacerView.setNotesArray(notesTimestamps[position].notes)
+        holder.notePlacerView.setStringOrder(stringOrder)
+        holder.notePlacerPosition = position
     }
 
-    class MyViewHolder(itemView: View, listener: TrackClickListener) : RecyclerView.ViewHolder(itemView){
-        val trackImage: ImageView = itemView.findViewById(R.id.trackImage)
-        val trackName: TextView = itemView.findViewById(R.id.trackTitle)
-        val trackAuthor: TextView = itemView.findViewById(R.id.trackAuthor)
-        var trackId: Int = 0
+    class NotePlacerViewHolder(itemView: View, notesTimestamps: ArrayList<NoteTimestamp>) : RecyclerView.ViewHolder(itemView){
+        var notePlacerSecondsTimestamp: TextView = itemView.findViewById(R.id.notePlacerSecondsTimestamp)
+        var notePlacerMinutesTimestamp: TextView = itemView.findViewById(R.id.notePlacerMinutesTimestamp)
+        var notePlacerView: NotePlacerView = itemView.findViewById(R.id.notePlacer)
+        var notePlacerPosition = 0
 
         init {
-            val editButton = itemView.findViewById<ImageButton>(R.id.editButton)
-            val deleteButton = itemView.findViewById<ImageButton>(R.id.deleteButton)
-            editButton.setOnClickListener {
-                listener.onTrackEditClick(trackId)
-            }
-            deleteButton.setOnClickListener {
-                listener.onTrackDeleteClick(trackId)
-            }
+            notePlacerView.setNotePlacerListener(object: NotePlacerView.NotePlacerListener{
+                override fun onNotePlacerClick(string: Int, value: Int?) {
+                    notesTimestamps[notePlacerPosition].notes[string] = value
+                }
+            })
         }
     }
+}
 
-    fun setNewArrayList(newArrayList: ArrayList<Track>) {
-        tracksList = newArrayList
-        notifyDataSetChanged()
+data class NoteTimestamp(
+    val timestamp: Double,
+    var notes: Array<Int?>
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as NoteTimestamp
+
+        if (!notes.contentEquals(other.notes)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return notes.contentHashCode()
     }
 }
+

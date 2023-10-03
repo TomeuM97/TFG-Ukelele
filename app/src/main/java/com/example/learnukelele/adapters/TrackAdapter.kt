@@ -1,7 +1,5 @@
-package com.example.learnukelele.Adapter
+package com.example.learnukelele.adapters
 
-import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnukelele.R
-import com.example.learnukelele.db.Track
-import org.json.JSONArray
-import java.util.Collections
+import com.example.learnukelele.database.Track
 
 
-class TrackAdapter(private var tracksList: ArrayList<Track>): RecyclerView.Adapter<TrackAdapter.MyViewHolder>() {
+class TrackAdapter(private var tracksList: ArrayList<Track>): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
     private lateinit var trackClickListener: TrackClickListener
 
@@ -27,17 +23,17 @@ class TrackAdapter(private var tracksList: ArrayList<Track>): RecyclerView.Adapt
         trackClickListener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         //LayoutInflater.from(parent.context).inflate(R.layout.creator_menu_item, parent, false)
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.player_menu_item, parent, false)
-        return MyViewHolder(itemView, trackClickListener )
+        return TrackViewHolder(itemView, trackClickListener )
     }
 
     override fun getItemCount(): Int {
         return tracksList.size
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         val currentItem = tracksList[position]
         holder.trackImage.setImageBitmap(currentItem.image)
         holder.trackName.text = currentItem.title
@@ -50,7 +46,7 @@ class TrackAdapter(private var tracksList: ArrayList<Track>): RecyclerView.Adapt
         holder.trackId = currentItem.id
     }
 
-    class MyViewHolder(itemView: View, listener: TrackClickListener) : RecyclerView.ViewHolder(itemView){
+    class TrackViewHolder(itemView: View, listener: TrackClickListener) : RecyclerView.ViewHolder(itemView){
         val trackImage: ImageView = itemView.findViewById(R.id.trackImage)
         val trackName: TextView = itemView.findViewById(R.id.trackTitle)
         val trackAuthor: TextView = itemView.findViewById(R.id.trackAuthor)
@@ -72,5 +68,3 @@ class TrackAdapter(private var tracksList: ArrayList<Track>): RecyclerView.Adapt
     }
 
 }
-
-//class Track (var trackImage: Drawable, var trackTitle: String, var trackAuthor: String, var trackRating: Double, var filename: String, var type: String) {}

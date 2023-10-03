@@ -1,4 +1,4 @@
-package com.example.learnukelele.Utils
+package com.example.learnukelele.audio
 
 import kotlin.math.*
 
@@ -53,13 +53,13 @@ fun directFT(x: Array<Complex>): Array<Complex>
     val W = Cexp(-2*PI/N.toDouble())                   // Initialize twiddle factors;
     var Wk = Complex(1.0, 0.0)
 
-    for (k in 0..N-1) {
+    for (k in 0 until N) {
         var Wkn = Complex(1.0, 0.0)
-        for (n in 0..N-1) {
+        for (n in 0 until N) {
             X[k] = X[k] + Wkn * x[n]
-            Wkn = Wkn * Wk                             // Update twiddle factor;
+            Wkn *= Wk                             // Update twiddle factor;
         }
-        Wk = Wk * W
+        Wk *= W
     }
     return X                                           // Return value;
 }
@@ -87,15 +87,15 @@ fun recursiveFFT(x: Array<Complex>): Array<Complex>
 
         var W = Cexp(-2*PI/N.toDouble())               // Twiddle factor;
         var Wj = Complex(1.0, 0.0)
-        for (j in 0..N1-1) {                           // Compute every subsequence of size N2;
+        for (j in 0 until N1) {                           // Compute every subsequence of size N2;
             val xj = Array<Complex>(N2) { n -> x[n*N1+j] }     // Create the subsequence;
             val Xj = recursiveFFT(xj)                          // Compute the DFT of the subsequence;
             var Wkj = Complex(1.0, 0.0)
-            for (k in 0..N-1) {
+            for (k in 0 until N) {
                 X[k] = X[k] + Xj[k%N2] * Wkj           // Recombine results;
-                Wkj = Wkj * Wj                         // Update twiddle factors;
+                Wkj *= Wj                         // Update twiddle factors;
             }
-            Wj = Wj * W
+            Wj *= W
         }
         return X
     }

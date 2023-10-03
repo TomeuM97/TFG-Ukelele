@@ -1,4 +1,4 @@
-package com.example.learnukelele.CustomViews
+package com.example.learnukelele.views
 
 import android.content.Context
 import android.graphics.Canvas
@@ -43,11 +43,10 @@ class PlayerBackgroundView(context: Context, attrs: AttributeSet) : View(context
         canvas.drawLine((canvas.width*0.60).toFloat(),0F,(canvas.width*0.60).toFloat(),canvas.height.toFloat(),brush)
         canvas.drawLine((canvas.width*0.80).toFloat(),0F,(canvas.width*0.80).toFloat(),canvas.height.toFloat(),brush)
     }
-    // Function to get a color from themes.xml
-    private fun getThemeColor(context: Context, attrRes: Int): Int {
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(attrRes, typedValue, true)
-        return typedValue.data
-    }
-
+}
+// Function to get a color from themes.xml
+fun getThemeColor(context: Context, attrRes: Int): Int {
+    val typedValue = TypedValue()
+    context.theme.resolveAttribute(attrRes, typedValue, true)
+    return typedValue.data
 }

@@ -1,46 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Aprèn Uke</string>
+    <string name="app_name">Learn Uke</string>
 
     <!--Strings for MainMenu -->
     <string name="button1_title">Learn a song</string>
     <string name="button2_title">Practice</string>
     <string name="button3_title">Tuner</string>
-    <string name="button4_title">Options</string>
+    <string name="button4_title">Track creator</string>
+    <string name="button5_title">Options</string>
 
     <!--Strings for Tuner -->
     <string name="input_note"> - </string>
+    <string name="messageTooLoose">Tighten the string</string>
+    <string name="messageTooTight">Loosen the string </string>
+    <string name="messageRightTone">String tuned!</string>
 
     <!--Strings for PlayerMenu -->
     <string name="ratingText">Score:</string>
 
+    <!--Strings for MenusFilters -->
+    <string name="typeTitle">Track type:</string>
+    <string name="songCheckBox">Songs</string>
+    <string name="typeCheckBox">Practice</string>
+
+    <string name="orderTitle">Order:</string>
+    <string-array name="orderSpinner">
+        <item>Title alfabeticaly A->Z</item>
+        <item>Title alfabeticaly Z->A</item>
+        <item>Artist alfabeticaly A->Z</item>
+        <item>Artist alfabeticaly Z->A</item>
+        <item>Score ascendent</item>
+        <item>Score descendent</item>
+    </string-array>
+    <string name="acceptButton">Accept</string>
+
+
     <!--Strings for PlayerActivity -->
+    <!--Strings for Confirmation Pause and Finish Dialog -->
+    <string name="dialogSpeed">Speed</string>
+    <string name="dialogContinue">Continue</string>
+    <string name="dialogRestart">Restart</string>
+    <string name="dialogQuit">Quit</string>
+    <string name="highScore">HIGH SCORE!</string>
+    <string name="confirmationYes">Yes</string>
+    <string name="confirmationTextEditQuit">Are you sure? The changes you made to the track won\'t be saved</string>
+    <string name="confirmationTextCreateQuit">Are you sure? If you exit before press create the track won\'t be saved</string>
+    <string name="confirmationTextDeleteTrack">Are you sure? If you delete this track you won\'t be able to recover it</string>
+    <string name="confirmationTextResetScores">Are you sure? You will lose all your current track scores</string>
+    <string name="skipTutorial">Skip tutorial</string>
+    <string name="resetTutorial">Tutorials have been reset</string>
+
+    <!--Strings for CreatorActivity -->
+    <string name="createButton">Create</string>
+    <string name="saveEditButton">Save</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="deleteNote">Empty space</string>
+
+    <string name="creatorTrackTitle">Track title</string>
+    <string name="creatorTrackAuthor">Track author</string>
+    <string name="creatorTrackType">Track type</string>
+    <string name="creatorTrackImage">Thumbnail</string>
+    <string name="creatorTrackImageButton">Change thumbnail</string>
+    <string-array name="creatorTrackTypesArray">
+        <item>Song</item>
+        <item>Practice</item>
+    </string-array>
+
 
     <!--Strings for Options -->
-    <string name="option1_title">Language</string>
-    <string name="option2_title">Audio Input</string>
-    <string name="option3_title">Notation</string>
+    <string name="option1_title">Strings order</string>
+    <string name="option2_title">Notation</string>
+    <string name="option2_one">English (C, D, E ... B)</string>
+    <string name="option2_two">Latin (Do, Re, Mi ... Si)</string>
+    <string name="option3_title">Repeat tutorial</string>
+    <string name="option4_title">Reset scores</string>
 
-    <string-array name="option1_array">
-        <item>Angles</item>
-        <item>Espanyol</item>
-        <item>Catala</item>
-    </string-array>
+    <!--Strings for Track Creator Menu -->
+    <string name="track_creator_title">List of tracks</string>
+    <string name="track_creator_button2">Create new track</string>
+    <string name="track_creator_button3">Import tracks</string>
+    <string name="track_creator_button4">Export tracks</string>
+    <string name="empty_recycler">You haven\'t created any track yet, press the button &quot;Crate new track&quot;</string>
 
-    <string-array name="option2_array">
-        <item>Microfon</item>
-        <item>Bluetooth</item>
-        <item>Audio Usb</item>
-    </string-array>
-
-    <string-array name="option3_array">
-        <item>Llatina</item>
-        <item>Anglesa</item>
-    </string-array>
 
     <!--Strings for Asking Permission -->
-    <string name="permissions_info"> Es necessari proporcionar permisos per utilizar el microfon per continuar</string>
-    <string name="permissions_button">Proporcionar permisos</string>
-    <string name="permissions_info2"> Per proporcionar els permisos prem el botó superior o accedeix a Privacitat > Gestio de permisos > Microfon, un cop alla autoritza l\'us del microfon a la aplicació "Aprén Ukelele"  </string>
+    <string name="permissions_info">Is necessary to allow the audio recording permission to continue</string>
+    <string name="permissions_button">Allow audio recording</string>
+    <string name="permissions_info2">To allow audio recording press the above button or access Privacy > Permission manager > Microphone, once there allow to "Learn Uke" app to access the microphone</string>
 
 </resources>

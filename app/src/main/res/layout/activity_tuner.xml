@@ -13,7 +13,8 @@
         android:layout_marginBottom="190dp"
         android:text="-"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:gravity="center"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guitarHead"
         app:layout_constraintStart_toStartOf="parent" />
@@ -25,7 +26,8 @@
         android:layout_marginBottom="45dp"
         android:text="-"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:gravity="center"
+        android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewString1"
         app:layout_constraintEnd_toStartOf="@+id/guitarHead"
         app:layout_constraintStart_toStartOf="parent" />
@@ -37,7 +39,8 @@
         android:layout_marginBottom="45dp"
         android:text="-"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:gravity="center"
+        android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewString4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guitarHead" />
@@ -49,7 +52,8 @@
         android:layout_marginBottom="190dp"
         android:text="-"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:gravity="center"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guitarHead" />
@@ -68,35 +72,35 @@
         android:id="@+id/markerTopBar"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_marginTop="100dp"
-        android:background="@color/design_default_color_primary"
+        android:layout_marginTop="70dp"
+        android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
-   />
+        />
+
+    <com.example.learnukelele.views.TunerMarkerView
+        android:id="@+id/tunerView"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:elevation="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/markerTopBar"
+        app:layout_constraintBottom_toTopOf="@+id/markerBottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <View
         android:id="@+id/markerBottomBar"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_marginTop="100dp"
-        android:background="@color/design_default_color_primary"
+        android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="@+id/markerTopBar"/>
 
     <View
-        android:id="@+id/middleBar"
-        android:layout_width="5dp"
-        android:layout_height="100dp"
-        android:background="@color/design_default_color_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/markerTopBar"
-        app:layout_constraintBottom_toTopOf="@+id/markerBottomBar"
-         />
-
-    <View
         android:id="@+id/movingBar"
-        android:layout_width="5dp"
+        android:layout_width="2dp"
         android:layout_height="100dp"
-        android:background="@color/design_default_color_primary"
+        android:background="?attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/markerTopBar"
@@ -105,7 +109,7 @@
 
     <TextView
         android:id="@+id/textViewDistance"
-        android:layout_width="84dp"
+        android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="-"
         android:textAlignment="center"
@@ -115,13 +119,27 @@
 
     <TextView
         android:id="@+id/textViewNote"
-        android:layout_width="41dp"
-        android:layout_height="41dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/input_note"
         android:textAlignment="center"
         android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/markerTopBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDistance" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

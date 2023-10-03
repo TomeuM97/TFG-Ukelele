@@ -2,11 +2,12 @@ package com.example.learnukelele
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.learnukelele.database.TrackDatabaseHelper
 
 class MainMenu : AppCompatActivity() {
 
@@ -23,6 +24,7 @@ class MainMenu : AppCompatActivity() {
         val btn2 = findViewById<Button>(R.id.mybutton2)
         val btn3 = findViewById<Button>(R.id.mybutton3)
         val btn4 = findViewById<Button>(R.id.mybutton4)
+        val btn5 = findViewById<Button>(R.id.mybutton5)
 
         btn1.setOnClickListener {
             startPlayerMenuActivity("song")
@@ -34,8 +36,21 @@ class MainMenu : AppCompatActivity() {
             startActivity(Intent(this, TunerActivity::class.java))
         }
         btn4.setOnClickListener {
+            startActivity(Intent(this,TrackCreatorMenu::class.java))
+        }
+        btn5.setOnClickListener {
             startActivity(Intent(this,OptionsMenu::class.java))
         }
+
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                Intent(Intent.ACTION_MAIN).also{
+                    it.addCategory(Intent.CATEGORY_HOME)
+                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(it)
+                }
+            }
+        })
     }
 
     private fun requestAudioRecordPermission() {

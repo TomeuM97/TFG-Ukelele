@@ -22,28 +22,30 @@
         android:layout_width="205dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="Title"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/trackImage"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/trackAuthor"
         android:layout_width="205dp"
         android:layout_height="30dp"
-        android:text="TextView"
+        android:text="Author"
         android:textSize="22sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/trackImage"
-        app:layout_constraintTop_toBottomOf="@+id/trackTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/trackTitle"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/trackRating"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:text="TextView"
+        android:text="Score"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

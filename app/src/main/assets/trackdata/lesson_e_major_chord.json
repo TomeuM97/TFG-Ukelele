@@ -1,27 +1,27 @@
 {
   "track-header": {
-    "name": "Chord: C major",
+    "name": "Chord: E major",
     "artist": "",
     "type": "lesson"
   },
   "track-data": [
-    {"notes": [0,null,null,null], "timestamp": 0},
-    {"notes": [null,0,null,null], "timestamp": 1},
+    {"notes": [1,null,null,null], "timestamp": 0},
+    {"notes": [null,4,null,null], "timestamp": 1},
     {"notes": [null,null,0,null], "timestamp": 2},
-    {"notes": [null,null,null,3], "timestamp": 3},
-    {"notes": [0,0,0,3], "timestamp": 4},
-    {"notes": [0,0,0,3], "timestamp": 6},
-    {"notes": [0,0,0,3], "timestamp": 7},
-    {"notes": [0,0,0,3], "timestamp": 8},
-    {"notes": [0,0,0,3], "timestamp": 8.5},
-    {"notes": [0,0,0,3], "timestamp": 9},
-    {"notes": [0,0,0,3], "timestamp": 10},
-    {"notes": [0,0,0,3], "timestamp": 11},
-    {"notes": [0,0,0,3], "timestamp": 11.5},
-    {"notes": [0,0,0,3], "timestamp": 12},
-    {"notes": [0,0,0,3], "timestamp": 13},
-    {"notes": [0,0,0,3], "timestamp": 14},
-    {"notes": [0,0,0,3], "timestamp": 14.5},
-    {"notes": [0,0,0,3], "timestamp": 15}
+    {"notes": [null,null,null,2], "timestamp": 3},
+    {"notes": [1,4,0,2], "timestamp": 4},
+    {"notes": [1,4,0,2], "timestamp": 6},
+    {"notes": [1,4,0,2], "timestamp": 7},
+    {"notes": [1,4,0,2], "timestamp": 8},
+    {"notes": [1,4,0,2], "timestamp": 8.5},
+    {"notes": [1,4,0,2], "timestamp": 9},
+    {"notes": [1,4,0,2], "timestamp": 10},
+    {"notes": [1,4,0,2], "timestamp": 11},
+    {"notes": [1,4,0,2], "timestamp": 11.5},
+    {"notes": [1,4,0,2], "timestamp": 12},
+    {"notes": [1,4,0,2], "timestamp": 13},
+    {"notes": [1,4,0,2], "timestamp": 14},
+    {"notes": [1,4,0,2], "timestamp": 14.5},
+    {"notes": [1,4,0,2], "timestamp": 15}
   ]
 }

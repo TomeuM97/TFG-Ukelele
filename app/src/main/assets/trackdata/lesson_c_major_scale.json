@@ -1,0 +1,26 @@
+{
+  "track-header": {
+    "name": "Scale: C major",
+    "artist": "",
+    "type": "lesson"
+  },
+  "track-data": [
+    {"notes": [null,0,null,null], "timestamp": 0},
+    {"notes": [null,2,null,null], "timestamp": 1},
+    {"notes": [null,null,0,null], "timestamp": 2},
+    {"notes": [null,null,1,null], "timestamp": 3},
+    {"notes": [null,null,3,null], "timestamp": 4},
+    {"notes": [null,null,null,0], "timestamp": 5},
+    {"notes": [null,null,null,2], "timestamp": 6},
+    {"notes": [null,null,null,3], "timestamp": 7},
+
+    {"notes": [null,null,null,3], "timestamp": 9},
+    {"notes": [null,null,null,2], "timestamp": 10},
+    {"notes": [null,null,null,0], "timestamp": 11},
+    {"notes": [null,null,3,null], "timestamp": 12},
+    {"notes": [null,null,1,null], "timestamp": 13},
+    {"notes": [null,null,0,null], "timestamp": 14},
+    {"notes": [null,2,null,null], "timestamp": 15},
+    {"notes": [null,0,null,null], "timestamp": 16}
+  ]
+}

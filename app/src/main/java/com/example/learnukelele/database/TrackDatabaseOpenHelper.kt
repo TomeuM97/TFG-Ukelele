@@ -1,4 +1,4 @@
-package com.example.learnukelele.db
+package com.example.learnukelele.database
 
 import android.content.ContentValues
 import android.content.Context
@@ -27,6 +27,7 @@ class TrackDatabaseHelper(context: Context) :
         const val COLUMN_SCORE = "score"
         const val COLUMN_IMAGE = "image"
         const val COLUMN_TRACK_DATA = "track_data"
+        const val COLUMN_IS_EDITABLE = "isEditable"
     }
     init {
         addDefaultTracks()
@@ -41,9 +42,9 @@ class TrackDatabaseHelper(context: Context) :
                     "$COLUMN_TYPE TEXT," +
                     "$COLUMN_SCORE REAL," +
                     "$COLUMN_IMAGE BLOB," +
-                    "$COLUMN_TRACK_DATA TEXT)"
+                    "$COLUMN_TRACK_DATA TEXT," +
+                    "$COLUMN_IS_EDITABLE TEXT)"
         )
-        println("Hello from database")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -60,9 +61,20 @@ class TrackDatabaseHelper(context: Context) :
             put(COLUMN_SCORE, track.score)
             put(COLUMN_IMAGE, toByteArray(track.image))
             put(COLUMN_TRACK_DATA, track.trackData.toString())
+            put(COLUMN_IS_EDITABLE, if(track.isEditable){"editable"}else{"notEditable"})
         }
 
         db.insert(TABLE_NAME, null, values)
+        db.close()
+    }
+
+    fun removeTrack(trackId: Int) {
+        val db = writableDatabase
+        db.delete(
+            TABLE_NAME,
+            "$COLUMN_ID = ?",
+            arrayOf(trackId.toString())
+        )
         db.close()
     }
 
@@ -71,7 +83,7 @@ class TrackDatabaseHelper(context: Context) :
 
         val cursor = db.query(
             TABLE_NAME,
-            arrayOf(COLUMN_ID, COLUMN_TITLE, COLUMN_AUTHOR, COLUMN_TYPE, COLUMN_SCORE, COLUMN_IMAGE, COLUMN_TRACK_DATA),
+            arrayOf(COLUMN_ID, COLUMN_TITLE, COLUMN_AUTHOR, COLUMN_TYPE, COLUMN_SCORE, COLUMN_IMAGE, COLUMN_TRACK_DATA, COLUMN_IS_EDITABLE),
             "$COLUMN_ID = ?",
             arrayOf(id.toString()),
             null,
@@ -88,7 +100,8 @@ class TrackDatabaseHelper(context: Context) :
                 cursor.getString(3),
                 cursor.getDouble(4),
                 toBitmap(cursor.getBlob(5)),
-                JSONArray(cursor.getString(6))
+                JSONArray(cursor.getString(6)),
+                (cursor.getString(7) == "editable")
             )
         } else {
             null
@@ -107,7 +120,7 @@ class TrackDatabaseHelper(context: Context) :
 
         val cursor = db.query(
             TABLE_NAME,
-            arrayOf(COLUMN_ID, COLUMN_TITLE, COLUMN_AUTHOR, COLUMN_TYPE, COLUMN_SCORE, COLUMN_IMAGE, COLUMN_TRACK_DATA),
+            arrayOf(COLUMN_ID, COLUMN_TITLE, COLUMN_AUTHOR, COLUMN_TYPE, COLUMN_SCORE, COLUMN_IMAGE, COLUMN_TRACK_DATA, COLUMN_IS_EDITABLE),
             null,
             null,
             null,
@@ -123,7 +136,8 @@ class TrackDatabaseHelper(context: Context) :
                 cursor.getString(3),
                 cursor.getDouble(4),
                 toBitmap(cursor.getBlob(5)),
-                JSONArray(cursor.getString(6))
+                JSONArray(cursor.getString(6)),
+                (cursor.getString(7) == "editable")
             )
             tracks.add(track)
         }
@@ -177,14 +191,20 @@ class TrackDatabaseHelper(context: Context) :
         db.close()
     }
 
-    private fun toByteArray(bitmap: Bitmap): ByteArray {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        return stream.toByteArray()
-    }
+    // Function that resets all scores
+    fun resetAllTrackScores() {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_SCORE, 0.0)
+        }
 
-    private fun toBitmap(bytes: ByteArray): Bitmap {
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+        db.update(
+            TABLE_NAME,
+            values,
+            null,
+            null
+        )
+        db.close()
     }
 
     private fun addDefaultTracks(){
@@ -214,7 +234,8 @@ class TrackDatabaseHelper(context: Context) :
                     trackType,
                     0.0,
                     trackImageBitmap,
-                    trackData
+                    trackData,
+                    false
                 )
                 println("We added track $track")
                 addTrack(track)
@@ -222,6 +243,25 @@ class TrackDatabaseHelper(context: Context) :
         }
 
         preferences.edit().putBoolean("initialized", true).apply()
+    }
+
+    private fun toByteArray(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
+    private fun toBitmap(bytes: ByteArray): Bitmap {
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+    }
+
+    private fun getBitmapFromAsset(context: Context, assetFileName: String): Bitmap {
+        return try {
+            val inputStream = context.assets.open(assetFileName)
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            BitmapFactory.decodeResource(context.resources, R.drawable.track_icon_default)
+        }
     }
 }
 
@@ -232,14 +272,7 @@ data class Track(
     val type: String,
     val score: Double,
     val image: Bitmap,
-    val trackData: JSONArray
+    val trackData: JSONArray,
+    val isEditable: Boolean
 )
 
-fun getBitmapFromAsset(context: Context, assetFileName: String): Bitmap {
-    return try {
-        val inputStream = context.assets.open(assetFileName)
-        BitmapFactory.decodeStream(inputStream)
-    } catch (e: Exception) {
-        BitmapFactory.decodeResource(context.resources, R.drawable.track_icon_default)
-    }
-}

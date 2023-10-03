@@ -1,4 +1,4 @@
-package com.example.learnukelele.CustomViews
+package com.example.learnukelele.views
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -7,22 +7,15 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.example.learnukelele.NoteScoreMark
 import com.example.learnukelele.R
-import com.example.learnukelele.Utils.Note
-import com.example.learnukelele.Utils.notes
-import com.example.learnukelele.Utils.standardTuning
-import kotlinx.coroutines.delay
 import org.json.JSONArray
 
 
 class PlayerNotesView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var playerNoteBitmap: Bitmap? = null
-    private var playerNotes: MutableList<Array<PlayerNote>> = mutableListOf()
     private val textPaint = Paint().apply{
         color = Color.BLACK
         textSize = 70f
@@ -31,16 +24,6 @@ class PlayerNotesView(context: Context, attrs: AttributeSet) : View(context, att
     }
     private var brush = Paint()
 
-    private lateinit var noteArriveListener: NoteArriveListener
-
-    interface NoteArriveListener{
-        fun onNoteArrive(playerNoteArray: Array<PlayerNote>)
-    }
-
-    fun setNoteArriveListener(listener: NoteArriveListener){
-        noteArriveListener = listener
-    }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (playerNoteBitmap == null){
@@ -48,40 +31,24 @@ class PlayerNotesView(context: Context, attrs: AttributeSet) : View(context, att
         }
         canvas.drawBitmap(playerNoteBitmap!!, 0f, 0f, brush)
     }
-
-    fun addNotes(notesArray: JSONArray) {
-        val list = mutableListOf<PlayerNote>()
-        for (i in 0 until notesArray.length()){
-            if(!notesArray.isNull(i)){
-                val brush = Paint().apply {
-                    color = when(i){
-                        1 -> ContextCompat.getColor(context, R.color.string1)
-                        2 -> ContextCompat.getColor(context, R.color.string2)
-                        3 -> ContextCompat.getColor(context, R.color.string3)
-                        else -> ContextCompat.getColor(context, R.color.string4)
-                    }
-                }
-                list.add(PlayerNote((playerNoteBitmap!!.width*(i+1)*0.2).toFloat(),0f,(i+1), notesArray.optInt(i), brush))
-            }
-        }
-        playerNotes.add(list.toTypedArray())
-    }
-
-    fun clearAllNotes() {
-        playerNotes = mutableListOf()
+    fun clearCanvas() {
         val canvas = Canvas(playerNoteBitmap!!)
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
         invalidate()
     }
+    fun getCanvasWidth(): Int{
+        val canvas = Canvas(playerNoteBitmap!!)
+        return canvas.width
+    }
+    fun getCanvasHeight(): Int{
+        val canvas = Canvas(playerNoteBitmap!!)
+        return canvas.height
+    }
 
-    fun updateFrame(notesScoreMark: MutableList<NoteScoreMark>) {
+    fun updateFrame(playerNotes:MutableList<Array<PlayerNote>>, notesScoreMark: MutableList<NoteScoreMark>) {
         val canvas = Canvas(playerNoteBitmap!!)
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
 
-        val moveAmount = 0.005f * playerNoteBitmap!!.height
-
-        //List to store notes that we are going to delete later
-        val notesToDelete : MutableList<Array<PlayerNote>> = mutableListOf()
         for (playerNotesArray in playerNotes){
             for (playerNote in playerNotesArray){
                 //Draw the Note
@@ -90,14 +57,6 @@ class PlayerNotesView(context: Context, attrs: AttributeSet) : View(context, att
                 canvas.drawCircle(playerNote.x,playerNote.y,60F,brush)
                 canvas.drawCircle(playerNote.x,playerNote.y,50F,playerNote.brush)
                 canvas.drawText(playerNote.fret.toString(), playerNote.x, fretTextCoordinateY, textPaint)
-
-                //Move it for next frame
-                playerNote.y = playerNote.y + moveAmount
-            }
-            //If the note has reached the end add to delete list and trigger onNoteArrive
-            if(playerNotesArray[0].y > playerNoteBitmap!!.height){
-                notesToDelete.add(playerNotesArray)
-                noteArriveListener.onNoteArrive(playerNotesArray)
             }
         }
         //List to store marks that we are going to delete later
@@ -113,10 +72,7 @@ class PlayerNotesView(context: Context, attrs: AttributeSet) : View(context, att
                 marksToDelete.add(noteScoreMark)
             }
         }
-        //Delete notes indicated in notesToDelete
-        for (playerNoteArray in notesToDelete){
-            playerNotes.remove(playerNoteArray)
-        }
+
         //Delete marks indicated in marksToDelete
         for (markToDelete in marksToDelete){
             notesScoreMark.remove(markToDelete)
@@ -143,17 +99,10 @@ class PlayerNotesView(context: Context, attrs: AttributeSet) : View(context, att
         paint.color = color
         canvas.drawText(text, x, y, paint)
 
-
-
-        invalidate()
-    }
-
-    fun eraseCanvas(){
-        val canvas = Canvas(playerNoteBitmap!!)
-        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
         invalidate()
     }
 
 }
 
-data class PlayerNote(val x: Float, var y: Float, val string: Int, val fret: Int, val brush: Paint)
+data class PlayerNote(val x: Float, var y: Float, val string: Int, val fret: Int, val brush: Paint, val timestamp: Float)
+data class NoteScoreMark(val string: Int, var length: Float, val paint: Paint)

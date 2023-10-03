@@ -1,34 +1,91 @@
 {
   "track-header": {
-    "name": "Canço 1",
-    "artist": "Pepe",
+    "name": "My Heart Will Go On",
+    "artist": "Celine Dion",
     "type": "song",
-    "image-name": "icono1.png"
+    "image-name": "titanic.png"
   },
   "track-data": [
-    {
-      "notes": [5,null,null,null],
-      "timestamp": 1
-    },
-    {
-      "notes": [null,0,null,null],
-      "timestamp": 2
-    },
-    {
-      "notes": [null,null,0,null],
-      "timestamp": 3
-    },
-    {
-      "notes": [null,null,null,0],
-      "timestamp": 3.5
-    },
-    {
-      "notes": [0,0,null,null],
-      "timestamp": 4
-    },
-    {
-      "notes": [null,null,0,0],
-      "timestamp": 6
-    }
+    {"notes": [null,null,3,null], "timestamp": 0},
+    {"notes": [null,null,3,null], "timestamp": 1.5},
+    {"notes": [null,null,3,null], "timestamp": 2},
+    {"notes": [null,null,3,null], "timestamp": 3},
+
+    {"notes": [null,null,2,null], "timestamp": 4},
+    {"notes": [null,null,3,null], "timestamp": 5},
+    {"notes": [null,null,3,null], "timestamp": 7},
+
+    {"notes": [null,null,2,null], "timestamp": 8},
+    {"notes": [null,null,3,null], "timestamp": 9},
+    {"notes": [null,null,null,0], "timestamp": 11},
+
+    {"notes": [null,null,null,2], "timestamp": 12},
+    {"notes": [null,null,null,0], "timestamp": 14},
+
+    {"notes": [null,null,3,null], "timestamp": 16},
+    {"notes": [null,null,3,null], "timestamp": 17.5},
+    {"notes": [null,null,3,null], "timestamp": 18},
+    {"notes": [null,null,3,null], "timestamp": 19},
+
+    {"notes": [null,null,2,null], "timestamp": 20},
+    {"notes": [null,null,3,null], "timestamp": 21},
+    {"notes": [null,null,3,null], "timestamp": 23},
+
+    {"notes": [null,2,null,null], "timestamp": 24},
+
+    {"notes": [null,null,3,null], "timestamp": 28},
+
+    {"notes": [null,null,null,0], "timestamp": 32},
+    {"notes": [null,2,null,null], "timestamp": 35},
+
+    {"notes": [null,null,null,5], "timestamp": 36},
+    {"notes": [null,null,null,3], "timestamp": 38},
+    {"notes": [null,null,null,2], "timestamp": 39},
+    {"notes": [null,null,null,0], "timestamp": 40},
+
+    {"notes": [null,null,null,2], "timestamp": 42},
+    {"notes": [null,null,null,3], "timestamp": 43},
+
+    {"notes": [null,null,null,2], "timestamp": 44},
+    {"notes": [null,null,null,0], "timestamp": 46},
+    {"notes": [null,null,3,null], "timestamp": 47},
+
+    {"notes": [null,null,2,null], "timestamp": 48},
+    {"notes": [null,null,3,null], "timestamp": 49},
+    {"notes": [null,null,3,null], "timestamp": 51},
+
+    {"notes": [null,null,0,null], "timestamp": 52},
+
+    {"notes": [null,2,null,null], "timestamp": 56},
+
+    {"notes": [null,null,3,null], "timestamp": 60},
+
+    {"notes": [null,null,null,0], "timestamp": 64},
+    {"notes": [null,2,null,null], "timestamp": 67},
+
+    {"notes": [null,null,null,5], "timestamp": 68},
+    {"notes": [null,null,null,3], "timestamp": 70},
+    {"notes": [null,null,null,2], "timestamp": 71},
+
+    {"notes": [null,null,null,0], "timestamp": 72},
+    {"notes": [null,null,null,2], "timestamp": 74},
+    {"notes": [null,null,null,3], "timestamp": 75},
+
+    {"notes": [null,null,null,2], "timestamp": 76},
+    {"notes": [null,null,null,0], "timestamp": 78},
+    {"notes": [null,null,3,null], "timestamp": 79},
+
+    {"notes": [null,null,2,null], "timestamp": 80},
+    {"notes": [null,null,3,null], "timestamp": 81},
+    {"notes": [null,null,2,null], "timestamp": 83},
+
+    {"notes": [null,null,2,null], "timestamp": 84},
+    {"notes": [null,null,3,null], "timestamp": 85},
+    {"notes": [null,null,null,0], "timestamp": 87},
+
+    {"notes": [null,null,null,2], "timestamp": 88},
+    {"notes": [null,null,null,0], "timestamp": 90},
+
+    {"notes": [null,null,3,null], "timestamp": 92}
   ]
 }

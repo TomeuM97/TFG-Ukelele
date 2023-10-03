@@ -4,59 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:background="@drawable/border">
+    android:layout_margin="4dp"
+    android:background="@drawable/border"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
     >
 
     <ImageView
         android:id="@+id/trackImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/trackTitle"
-        android:layout_width="205dp"
+        android:layout_width="170dp"
         android:layout_height="30dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="Title"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/trackImage"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/trackAuthor"
-        android:layout_width="205dp"
+        android:layout_width="170dp"
         android:layout_height="30dp"
-        android:text="TextView"
+        android:layout_marginStart="10dp"
+        android:text="Author"
         android:textSize="22sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/trackImage"
-        app:layout_constraintTop_toBottomOf="@+id/trackTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/trackTitle"
+        android:singleLine="true" />
 
-    <TextView
-        android:id="@+id/trackRating"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="3dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:src="@drawable/baseline_edit_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/deleteButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/trackRatingText"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:text="@string/ratingText"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:src="@drawable/baseline_delete_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/trackRating" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
